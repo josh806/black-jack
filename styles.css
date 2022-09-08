@@ -9,6 +9,7 @@ KEY
     01. Global
     02. Buttons
     03. Modules
+    04. Media queries
 
 */
 
@@ -425,4 +426,47 @@ button {
 /*------ playAgain ------*/
 .playAgain {
 	margin-top: 40px;
+}
+
+/* 
+============
+04. Media queries
+============ 
+*/
+
+/*------  ------*/
+@media (max-width: 1000px) {
+	body {
+		min-width: auto;
+	}
+
+	.game__cols {
+		align-items: center;
+		flex-direction: column;
+	}
+	.game__cols > * {
+		display: -webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+		width: 100% !important;
+		padding: 20px 0;
+	}
+	.userMessage,
+	.gameMsg {
+		padding: 20px;
+		width: auto;
+	}
+	.gameMsg {
+		padding: 20px 10px;
+	}
+
+	.player {
+		width: 100%;
+		max-width: 260px;
+	}
 }
