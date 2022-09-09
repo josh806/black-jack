@@ -59,6 +59,9 @@ const GAME_HTML = `<div class="game">
 						</div>
 					</div>`;
 const MAX_NUM = 21;
+const ERROR_MSGS = {
+	noCards: 'Error: no cards left in deck. Please refresh the page',
+};
 
 class BlackJack {
 	constructor(gameClass = 'game', playerNames = [], deck = new Deck()) {
@@ -112,7 +115,12 @@ class BlackJack {
 		this.players.map((player, i) => {
 			for (let i = 0; i < 2; i++) {
 				const card = this.deck.removeCard();
-				player.addCard(card);
+				if (card) {
+					player.addCard(card);
+				} else {
+					this.showError('noCards');
+					return;
+				}
 			}
 
 			// Create player div
@@ -138,8 +146,14 @@ class BlackJack {
 
 		if (player.state === 'PLAYING') {
 			// Add card to player
-			player.addCard(this.deck.removeCard());
-			player.updatePlayerArea();
+			const newCard = this.deck.removeCard();
+			if (newCard) {
+				player.addCard(newCard);
+				player.updatePlayerArea();
+			} else {
+				this.showError('noCards');
+				return;
+			}
 		} else {
 			console.log('Error: player is not playing, so cannot HIT!');
 		}
@@ -221,6 +235,13 @@ class BlackJack {
 		}
 
 		this.gameOver();
+	}
+
+	/* Print error for user */
+	showError(errorMsgId) {
+		$('.fn-msg', `.${this.gameClass}`).html(
+			`<div class="red">${ERROR_MSGS[errorMsgId]}</div>`
+		);
 	}
 
 	/* Game over so update game message and show 'Play again' button */
